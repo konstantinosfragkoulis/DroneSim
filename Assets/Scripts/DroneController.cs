@@ -92,7 +92,7 @@ public class DroneController : MonoBehaviour {
 
             rb.AddForce(transform.up * Thrust);
             // Rotate the rigidbody by the pitch, roll, and yaw degrees
-            rb.rotation = Quaternion.Euler(Roll, Pitch, Yaw); // Rotation in the Z, X, and Y axes
+            rb.rotation = Quaternion.Euler(Pitch, Yaw, Roll); // Z, X, Y
 
         }
     }
