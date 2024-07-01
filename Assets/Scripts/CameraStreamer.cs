@@ -30,7 +30,7 @@ public class CameraStreamer : MonoBehaviour {
     private static extern int munmap(IntPtr addr, uint size);
     
     public void WriteToSharedMemory(string name, byte[] data) {
-        int fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+        int fd = shm_open(name, O_RDWR, 0666);
         if (fd == -1) {
             throw new InvalidOperationException("Unable to open shared memory.");
         }
@@ -58,13 +58,15 @@ public class CameraStreamer : MonoBehaviour {
         Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
         texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         texture2D.Apply();
+        byte[] rawData = texture2D.GetRawTextureData();
         RenderTexture.active = null;
-
-        return texture2D.EncodeToPNG();
+        UnityEngine.Object.Destroy(texture2D);
+        return rawData;
     }
 
     void Update() {
         byte[] data = RenderTextureToByteArray(renderTexture);
-        WriteToSharedMemory("/virtCamMem", data);
+        Debug.Log("Size in bytes: " + data.Length);
+        WriteToSharedMemory("/myVirtCamMem", data);
     }
 }
