@@ -5,7 +5,6 @@ using UnityEngine;
 using System.Collections;
 
 public class DroneController : MonoBehaviour {
-    // Define constants
     private const int O_RDONLY = 0x0000;
     private const int PROT_READ = 0x1;
     private const int MAP_SHARED = 0x01;
@@ -90,7 +89,7 @@ public class DroneController : MonoBehaviour {
             Debug.Log("Roll: " + Roll);
             Debug.Log("Yaw: " + Yaw);
 
-            rb.AddForce(transform.up * Thrust);
+            // rb.AddRelativeForce(transform.up * Thrust);
             // Rotate the rigidbody by the pitch, roll, and yaw degrees
             rb.rotation = Quaternion.Euler(Pitch, Yaw, Roll); // Z, X, Y
 
