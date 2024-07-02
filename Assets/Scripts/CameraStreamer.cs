@@ -66,7 +66,6 @@ public class CameraStreamer : MonoBehaviour {
 
     void Update() {
         byte[] data = RenderTextureToByteArray(renderTexture);
-        Debug.Log("Size in bytes: " + data.Length);
         WriteToSharedMemory("/myVirtCamMem", data);
     }
 }
