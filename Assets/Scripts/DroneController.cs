@@ -26,6 +26,7 @@ public class DroneController : MonoBehaviour {
 
     
     short yaw, pitch, roll, throttle;
+    float prevYaw = 0f;
     bool arm;
     bool lastArmState = false;
 
@@ -74,6 +75,7 @@ public class DroneController : MonoBehaviour {
             float Pitch = intToDegPerSec(pitch);
             float Roll = intToDegPerSec(roll);
             float Yaw = intToDegPerSec(yaw);
+            prevYaw += Yaw;
 
             Debug.Log("Thrust: " + Thrust);
             Debug.Log("Pitch: " + Pitch);
@@ -82,9 +84,10 @@ public class DroneController : MonoBehaviour {
 
             rb.AddRelativeForce(transform.up * Thrust);
             // Rotate the rigidbody by the pitch, roll, and yaw degrees
-            rb.rotation = Quaternion.Euler(Pitch, Yaw, Roll); // Z, X, Y
+            rb.rotation = Quaternion.Euler(Pitch, prevYaw, Roll); // Z, X, Y
 
             print("Arm: " + arm);
+            Debug.Log("Velocity: " + rb.linearVelocity);
         }
         if(arm != lastArmState) {
             lastArmState = arm;
