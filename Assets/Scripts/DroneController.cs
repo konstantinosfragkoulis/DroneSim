@@ -30,24 +30,29 @@ public class DroneController : MonoBehaviour {
     bool arm;
     bool lastArmState = false;
 
+    public Vector3 force;
+
     [SerializeField] private Rigidbody rb;
 
     public const float PI = 3.14159f;
     public const float RHO = 1.225f;
 
-    private double const1 = PI * RHO * Mathf.Pow(0.0762f, 2) * 0.0635 / (3600 * 4 * 30);
+    private float const1 = (float) (PI * RHO * Mathf.Pow(0.0762f, 2) * 0.0635 / (3600 * 4 * 50));
     float RPMtoThrust(int val) {
-        return (float) (const1 * Mathf.Pow(val, 2));
+        return const1 * Mathf.Pow(val, 2);
     }
 
+    private const float const2 = 360/(32767+32768);
     float intToDegPerSec(short val) {
-        return (float) (0.02534762f*val + 0.02909812f);
+        return const2*val;
     }
 
     int CRSFtoRPM(short val) {
-        return (int) (82452.83 + (-12057.32 - 82452.83)/(1 + Mathf.Pow((float) (val/1776.103), 3.043331f)));
+        return (int) ((val - 971.4899)/0.02080581);
     }
 
+    private const float const3 = 1000 / 65535;
+    private const float const4 = 1000 + (32768 * const3);
     short intToCRSF(int val) {
         return (short) (0.01890788f*val + 1500.051f);
     }
@@ -75,14 +80,16 @@ public class DroneController : MonoBehaviour {
             float Pitch = intToDegPerSec(pitch);
             float Roll = intToDegPerSec(roll);
             float Yaw = intToDegPerSec(yaw);
-            prevYaw += Yaw;
+            prevYaw += Yaw*Time.fixedDeltaTime;
 
             Debug.Log("Thrust: " + Thrust);
             Debug.Log("Pitch: " + Pitch);
             Debug.Log("Roll: " + Roll);
             Debug.Log("Yaw: " + Yaw);
 
-            rb.AddRelativeForce(transform.up * Thrust);
+            force = transform.up * Thrust;
+
+            rb.AddRelativeForce(force);
             // Rotate the rigidbody by the pitch, roll, and yaw degrees
             rb.rotation = Quaternion.Euler(Pitch, prevYaw, Roll); // Z, X, Y
 
@@ -105,13 +112,13 @@ public class DroneController : MonoBehaviour {
 
         arm = values[6] == 1;
 
-        /*
+        
         Debug.Log("Yaw: " + yaw);
         Debug.Log("Pitch: " + pitch);
         Debug.Log("Roll: " + roll);
         Debug.Log("Throttle: " + throttle);
         Debug.Log("Arm: " + arm);
         Debug.Log("\n");
-        */
+        
     }
 }

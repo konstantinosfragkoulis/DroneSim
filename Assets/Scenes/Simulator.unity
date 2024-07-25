@@ -6009,7 +6009,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8164078559529129461}
   serializedVersion: 4
-  m_Mass: 0.575
+  m_Mass: 0.31
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6959,6 +6959,7 @@ GameObject:
   - component: {fileID: 1954918203}
   - component: {fileID: 1954918204}
   - component: {fileID: 8164078559529129462}
+  - component: {fileID: 8164078559529129463}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -6978,7 +6979,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc8324cb597f12d093a60bce8c07b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: {x: 0, y: 0, z: 0}
   rb: {fileID: 1954918204}
+--- !u!114 &8164078559529129463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164078559529129461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c869b2608f9a1808a99ed88b4c5a3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
